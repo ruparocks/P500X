@@ -34,6 +34,9 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WI9-Ao-y2w">
                                                     <rect key="frame" x="0.0" y="0.0" width="383" height="151"/>
                                                 </imageView>
+                                                <imageView userInteractionEnabled="NO" alpha="0.34999999999999998" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="gradient" translatesAutoresizingMaskIntoConstraints="NO" id="Isw-6e-RtY">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
+                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title of the image" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dyt-0z-Qk5">
                                                     <rect key="frame" x="102" y="29" width="246" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -218,6 +221,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="gradient" width="187" height="187"/>
         <image name="logo" width="625" height="208"/>
     </resources>
 </document>
