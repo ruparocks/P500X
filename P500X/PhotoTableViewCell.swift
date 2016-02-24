@@ -10,7 +10,11 @@ import UIKit
 
 class PhotoTableViewCell : UITableViewCell {
     
-    var photo : NSDictionary?
+    var photo: Photo? {
+        didSet {
+            configureView()
+        }
+    }
     
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var username: UILabel!
@@ -20,42 +24,18 @@ class PhotoTableViewCell : UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-
     
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
-    func loadData (data: NSDictionary) {
-        self.photo = data
-        displayText()
-        displayImages()
-    }
-    func displayText() {
-        self.titleLabel.text = self.photo?.valueForKey("name") as? String
-        self.username.text = "by " + ((self.photo?.valueForKey("user")!.valueForKey("fullname"))! as! String)
+    func configureView() {
+        if let photo = photo {
+            self.titleLabel.text = photo.name
+            self.username.text = photo.fullname
+            self.userImage.image = photo.userImage
+            self.mainImageBack.image = photo.image
+        }
     }
     
-    func displayImages() {
-        imgFromUrl(((photo?.valueForKey("image_url")) as? String)!, imageView: mainImageBack)
-        imgFromUrl((photo?.valueForKey("user")?.valueForKey("avatars")?.valueForKey("default")?.valueForKey("https") as? String)!, imageView: userImage)
-        userImage.layer.masksToBounds = true
-        userImage.layer.cornerRadius = 40
-    }
-    
-    func imgFromUrl(url: String, imageView: UIImageView) {
-        let imageURL : NSURL = NSURL(string: url)!
-        var data: NSData? = nil
-        do {
-            data = try NSData(contentsOfURL: imageURL, options:NSDataReadingOptions.DataReadingMappedIfSafe)
-        }
-        catch {
-            print("We have an image issue \(error)")
-        }
-        if (data != nil) {
-            imageView.image = UIImage(data: data!)
-        }
-        
-        
-    }
 }
