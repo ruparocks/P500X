@@ -14,12 +14,20 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // MARK: - Properties
     var photos = [Photo]()
+    let searchController = UISearchController(searchResultsController: nil)
+    var filteredPhotos = [Photo]()
     
     // MARK: - View Setup
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         getPhotos()
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
+        tableView.tableHeaderView = searchController.searchBar
+        searchController.searchBar.searchBarStyle = UISearchBarStyle.Minimal
+        searchController.searchBar.placeholder = "search titles"
+        searchController.searchBar.barTintColor = UIColor.rupaGreen()
     }
     
     override func didReceiveMemoryWarning() {
@@ -33,18 +41,23 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if searchController.active && searchController.searchBar.text != "" {
+            return filteredPhotos.count
+        }
         return self.photos.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! PhotoTableViewCell
-        cell.photo = photos[indexPath.row]
+        let photo : Photo
+        if searchController.active && searchController.searchBar.text != "" {
+            photo = filteredPhotos[indexPath.row]
+        } else {
+            photo = photos[indexPath.row]
+        }
+        cell.photo = photo
         return cell
     }
-    
-//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        self.performSegueWithIdentifier("showDetail", sender: self)
-//    }
     
     func tableRefresh()
     {
@@ -57,13 +70,26 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: - Segues
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
+            let photo : Photo
             if let indexPath = tableView.indexPathForSelectedRow {
-                let photo = photos[indexPath.row]
+                if searchController.active && searchController.searchBar.text != "" {
+                    photo = filteredPhotos[indexPath.row]
+                } else {
+                    photo = photos[indexPath.row]
+                }
+                
                 let controller = segue.destinationViewController as! DetailViewController
                 controller.detailPhoto = photo
-                controller.navigationItem.leftItemsSupplementBackButton = true
             }
         }
+    }
+    
+    func filterContentForSearchText(searchText: String, scope: String = "All") {
+        filteredPhotos = photos.filter { photo in
+            return photo.name.lowercaseString.containsString(searchText.lowercaseString)
+        }
+        
+        tableView.reloadData()
     }
 
     //MARk: - Data calls
@@ -97,3 +123,8 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
 
 }
 
+extension FeedViewController: UISearchResultsUpdating {
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+}

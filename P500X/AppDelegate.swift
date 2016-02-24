@@ -9,7 +9,7 @@
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationBarDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
@@ -44,3 +44,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationBarDelegate {
 
 }
 
+extension UIColor {
+    static func rupaGreen() -> UIColor {
+        return UIColor(red: 119.0/255.0, green: 195.0/255.0, blue: 120.0/255.0, alpha: 1.0)
+    }
+}

@@ -27,14 +27,21 @@ class DetailViewController: UIViewController {
         configureView()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        infoText.scrollRangeToVisible(NSRange(location: 0,length: 0))
+    }
+    
     func configureView() {
         if let detailPhoto = detailPhoto {
             if let titleLabel = titleLabel, infoText = infoText, userImage = userImage, image = image {
                 titleLabel.text = detailPhoto.name
                 infoText.attributedText = descriptionText(detailPhoto.fullname, description: detailPhoto.description)
+                infoText.scrollRangeToVisible(NSRange(location: 0,length: 0))
                 image.image = detailPhoto.image
                 userImage.image = detailPhoto.userImage
-                
+                userImage.layer.cornerRadius = userImage.frame.size.width/2
+                userImage.clipsToBounds = true
             }
         }
     }
@@ -48,19 +55,19 @@ class DetailViewController: UIViewController {
         let generalTextAttributes = NSMutableParagraphStyle()
         generalTextAttributes.alignment = NSTextAlignment.Left
         generalTextAttributes.paragraphSpacing = 10.0
-        var boldTextStyle = [String: NSObject]()
-        boldTextStyle[NSFontAttributeName] = UIFont(name: "HelveticaNeue-Medium", size: 24.0)
-        boldTextStyle[NSParagraphStyleAttributeName] = generalTextAttributes
         
         var plainTextStyle = [String: NSObject]()
         plainTextStyle[NSFontAttributeName] = UIFont(name: "HelveticaNeue-Light", size: 16.0)
         plainTextStyle[NSParagraphStyleAttributeName] = generalTextAttributes
         
+        var boldTextStyle = [String: NSObject]()
+        boldTextStyle[NSFontAttributeName] = UIFont(name: "HelveticaNeue-Medium", size: 24.0)
+        boldTextStyle[NSForegroundColorAttributeName] = UIColor.rupaGreen()
+        boldTextStyle[NSParagraphStyleAttributeName] = generalTextAttributes
+        
         let attributedText : NSMutableAttributedString = NSMutableAttributedString(string: "by ", attributes: plainTextStyle)
         attributedText.appendAttributedString(NSMutableAttributedString(string: fullname, attributes: boldTextStyle))
-        attributedText.appendAttributedString(NSMutableAttributedString(string: "\n", attributes: plainTextStyle))
-        attributedText.appendAttributedString(NSMutableAttributedString(string: description, attributes: plainTextStyle))
-        attributedText.appendAttributedString(NSMutableAttributedString(string: "\n", attributes: plainTextStyle))
+        attributedText.appendAttributedString(NSMutableAttributedString(string: "\n" + description + "\n", attributes: plainTextStyle))
         
         return attributedText
     }

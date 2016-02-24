@@ -23,8 +23,10 @@ class PhotoTableViewCell : UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        configureView()
     }
     
+
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
@@ -35,6 +37,19 @@ class PhotoTableViewCell : UITableViewCell {
             self.username.text = photo.fullname
             self.userImage.image = photo.userImage
             self.mainImageBack.image = photo.image
+            self.userImage.layer.cornerRadius = userImage.frame.size.width/2
+            self.userImage.clipsToBounds = true
+            self.userImage.layer.borderColor = UIColor.whiteColor().CGColor
+            self.userImage.layer.borderWidth = 1.0
+
+            let border = CALayer()
+            let width = CGFloat(1.0)
+            border.borderColor = UIColor.rupaGreen().CGColor
+            border.frame = CGRect(x: 0, y: self.frame.size.height - width, width:  self.frame.size.width, height: self.frame.size.height)
+            
+            border.borderWidth = width
+            self.layer.addSublayer(border)
+            self.layer.masksToBounds = true
         }
     }
     
