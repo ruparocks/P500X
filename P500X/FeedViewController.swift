@@ -11,6 +11,7 @@ import UIKit
 class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
+    
     // MARK: - Properties
     var photos = [Photo]()
     
@@ -18,8 +19,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.getPhotos()
-//        tableView.reloadData()
+        getPhotos()
     }
     
     override func didReceiveMemoryWarning() {
@@ -42,9 +42,9 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("showDetail", sender: self)
-    }
+//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        self.performSegueWithIdentifier("showDetail", sender: self)
+//    }
     
     func tableRefresh()
     {
@@ -54,13 +54,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         })
     }
 
-    
     // MARK: - Segues
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let photo = photos[indexPath.row]
-                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+                let controller = segue.destinationViewController as! DetailViewController
                 controller.detailPhoto = photo
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }
@@ -79,19 +78,10 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                         let jsonResult : NSDictionary = try NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
                         if let images = jsonResult["photos"] {
                             for var i = 0; i < images.count; i++ {
-                                print(images[i])
-                                if let name = images[i]["name"] as? String {
-                                    if let imageUrl = images[i]["image_url"] as? String {
-                                        if let desc = images[i]["description"] as? String {
-                                            if let userPicUrl = images[i]["user"]!!["userpic_https_url"] as? String {
-                                                if let username = images[i]["user"]!!["fullname"] as? String {
-                                                    let newPhoto : Photo = Photo(name: name, fullname: username, description: desc, imageUrl: imageUrl, userImageUrl: userPicUrl)
-                                                    self.photos.append(newPhoto)
-                                                    self.tableRefresh()
-                                                }
-                                            }
-                                        }
-                                    }
+                                if let name = images[i]["name"] as? String, imageUrl = images[i]["image_url"] as? String, desc = images[i]["description"] as? String, userPicUrl = images[i]["user"]!!["userpic_https_url"] as? String, username = images[i]["user"]!!["fullname"] as? String {
+                                        let newPhoto : Photo = Photo(name: name, fullname: username, description: desc, imageUrl: imageUrl, userImageUrl: userPicUrl)
+                                        self.photos.append(newPhoto)
+                                        self.tableRefresh()
                                 }
                             }
                         }

@@ -26,11 +26,11 @@
                                 <rect key="frame" x="-4" y="64" width="383" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="150" id="IRW-ac-dvT" customClass="PhotoTableViewCell" customModule="P500X" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="150" id="IRW-ac-dvT" customClass="PhotoTableViewCell" customModule="P500X" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="383" height="150"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" tableViewCell="IRW-ac-dvT" id="51b-W2-jZi">
-                                            <rect key="frame" x="0.0" y="0.0" width="383" height="149.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="350" height="149.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WI9-Ao-y2w">
@@ -85,6 +85,7 @@
                                             <outlet property="titleLabel" destination="Dyt-0z-Qk5" id="HQa-Xl-rpl"/>
                                             <outlet property="userImage" destination="zqD-WP-yDq" id="9Mp-5g-73Z"/>
                                             <outlet property="username" destination="KDu-dn-D7N" id="iKX-BJ-PRT"/>
+                                            <segue destination="X40-sy-pr9" kind="push" identifier="showDetail" id="Rc1-Mi-E6O"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -115,7 +116,6 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="tableView" destination="9vD-Fx-CKZ" id="J7T-xF-9cQ"/>
-                        <segue destination="X40-sy-pr9" kind="push" identifier="showDetail" id="RrE-IG-RyQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
