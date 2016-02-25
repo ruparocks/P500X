@@ -28,6 +28,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         searchController.searchBar.searchBarStyle = UISearchBarStyle.Minimal
         searchController.searchBar.placeholder = "search titles"
         searchController.searchBar.barTintColor = UIColor.rupaGreen()
+
     }
     
     override func didReceiveMemoryWarning() {
